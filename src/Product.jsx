@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 
 export default class Product extends Component {
-  state = {
-    product: this.props.product,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      product: this.props.product,
+    };
+  }
 
   render() {
     return (
@@ -61,4 +65,6 @@ export default class Product extends Component {
       </div>
     );
   }
+
+  componentWillUnmount() {}
 }
