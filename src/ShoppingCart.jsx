@@ -2,19 +2,15 @@ import React, { Component } from "react";
 import Product from "./Product";
 
 export default class ShoppingCart extends Component {
-  state = {
-    products: [
-      { id: 1, productName: "iPhone", price: 8900, quantity: 0 },
-      { id: 2, productName: "Sony Camera", price: 4500, quantity: 0 },
-      { id: 3, productName: "Samsung QLED TV", price: 7745, quantity: 0 },
-      { id: 4, productName: "iPad Pro", price: 12400, quantity: 0 },
-      { id: 5, productName: "Xbox", price: 7780, quantity: 0 },
-      { id: 6, productName: "Dell Monitor", price: 8900, quantity: 0 },
-    ],
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = { products: [] };
+  }
+
   render() {
     return (
-      <div className="container-fluid">
+      <div>
         <h4>Shopping Cart</h4>
 
         <div className="row">
@@ -34,6 +30,21 @@ export default class ShoppingCart extends Component {
         </div>
       </div>
     );
+  }
+
+  // Executes after constructor and render method (includes life cycle of child components, if any) of current component
+  componentDidMount = async () => {
+    var response = await fetch("http://localhost:4000/products", {
+      method: "GET",
+    });
+    var prods = await response.json();
+    this.setState({ products: prods });
+  };
+  componentDidUpdate(prevProps, prevState) {}
+  componentWillUnmount() {}
+
+  componentDidCatch(error, info) {
+    localStorage.lastError = `${error}\n${JSON.stringify(info)}`;
   }
 
   handleIncrement = (product, maxValue) => {
